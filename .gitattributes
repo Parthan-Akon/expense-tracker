@@ -1,0 +1,17 @@
+# Set default behavior for all text files to auto-convert line endings
+* text=auto
+
+# Force LF line endings for TypeScript, CSS, JSON, and Markdown files
+*.ts text eol=lf
+*.tsx text eol=lf
+*.css text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+
+# Force LF for Gitignore, ESLint config, and other common text files
+.gitignore text eol=lf
+eslint.config.mjs text eol=lf
+package.json text eol=lf
+postcss.config.mjs eol=lf
+
+# You can add more specific rules for other file types as needed
