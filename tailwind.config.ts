@@ -11,6 +11,10 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        darkcyan: "#008b8b",
+      },
+      maxHeight: {
+        'custom': 'calc(100vh - 140px)',
       },
     },
   },
