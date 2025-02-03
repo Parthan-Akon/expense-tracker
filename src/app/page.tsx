@@ -5,13 +5,13 @@ import { getExpenses } from "@/services/expensesApi";
 import { Expense } from "@/types/expense";
 
 export default function Home() {
-  const totalAmount: number = 70000;
+  const totalAmount: number = 80000;
   const [expenseData, setExpenseData] = useState<Expense[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getExpenses();
-      console.log("data", data);
+      
       setExpenseData(data);
     };
 
