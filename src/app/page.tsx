@@ -44,7 +44,7 @@ export default function Home() {
           <div className="font-bold text-4xl text-center text-darkcyan mt-2 mb-3">
             ₹{totalAmount.toLocaleString()}
           </div>
-          <div className="text-center mt-2">Remaining ₹{remainingAmount}</div>
+          <div className="text-center mt-2 text-black">Remaining ₹{remainingAmount}</div>
         </div>
         {/* Button to open modal */}
         <div className="mt-32 flex justify-center">

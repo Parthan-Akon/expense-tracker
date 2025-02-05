@@ -33,12 +33,12 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white rounded-lg p-4 max-w-sm w-full">
-        <h2 className="text-xl font-bold mb-4">Create new purchase</h2>
+        <h2 className="text-xl font-bold mb-4 text-black">Create new purchase</h2>
         <div className="mb-4">
           <label className="block text-gray-700">Title</label>
           <input
             type="text"
-            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+            className="mt-1 block w-full px-3 py-2 bg-white border text-black border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
             value={title}
             onChange={handleTitleChange}
           />
@@ -46,7 +46,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
         <div className="mb-4">
           <label className="block text-gray-700">Type</label>
           <select
-            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+            className="mt-1 block w-full px-3 py-2 bg-white border text-black border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
             value={type}
             onChange={handleTypeChange}
           >
@@ -63,7 +63,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
           <label className="block text-gray-700">Amount</label>
           <input
             type="number"
-            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+            className="mt-1 block w-full px-3 py-2 bg-white border text-black border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
             value={amount}
             onChange={handleAmountChange}
           />
@@ -73,6 +73,12 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose }) => {
           onClick={handleSave}
         >
           Save
+        </button>
+        <button
+          className="bg-blue-500 ml-3 text-white px-4 py-2 rounded hover:bg-blue-700"
+          onClick={onClose}
+        >
+          Cancel
         </button>
       </div>
     </div>
