@@ -20,7 +20,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const { title, amount } = await request.json();
+  const { title, amount, type } = await request.json();
 
   if (!title || !amount) {
     return NextResponse.json(
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
 
   const { data, error } = await supabase
     .from("expenses")
-    .insert([{ title, amount }]);
+    .insert([{ title, amount, type }]);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
