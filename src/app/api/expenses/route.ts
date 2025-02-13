@@ -48,8 +48,14 @@ export async function POST(request: Request) {
   // 🔐 Authenticate the user
   try {
     await authenticateUser();
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 401 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 401 });
+    }
+    return NextResponse.json(
+      { error: "An unknown error occurred" },
+      { status: 401 }
+    );
   }
 
   const { data, error } = await supabase
