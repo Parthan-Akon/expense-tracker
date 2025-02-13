@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { getExpenses } from "@/services/expensesApi";
 import { Expense } from "@/types/expense";
 import Modal from "./components/Modal";
+import { getCategories } from "@/services/categoryApi";
+import { Category } from "@/types/category";
 
 export default function Home() {
   const totalAmount: number = 70000;
@@ -11,6 +13,15 @@ export default function Home() {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [refresh, setRefresh] = useState<number>(0);
   const [remainingAmount, setRemainingAmount] = useState<number>(0);
+  const [categoryList, setCategoryList] = useState<Category[]>([]);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      const data = await getCategories();
+      setCategoryList(data)
+    }
+    fetchCategories()
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +55,9 @@ export default function Home() {
           <div className="font-bold text-4xl text-center text-darkcyan mt-2 mb-3">
             ₹{totalAmount.toLocaleString()}
           </div>
-          <div className="text-center mt-2 text-black">Remaining ₹{remainingAmount}</div>
+          <div className="text-center mt-2 text-black">
+            Remaining ₹{remainingAmount.toFixed(2)}
+          </div>
         </div>
         {/* Button to open modal */}
         <div className="mt-32 flex justify-center">
@@ -85,7 +98,7 @@ export default function Home() {
           </table>
         </div>
         {/* Modal */}
-        <Modal isVisible={isModalVisible} onClose={handleModalClose} />
+        <Modal isVisible={isModalVisible} onClose={handleModalClose} categoryList={categoryList} />
       </div>
     </div>
   );
