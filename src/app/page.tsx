@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-
 import { getExpenses } from "@/services/expensesApi";
 import { Expense } from "@/types/expense";
 import Modal from "./components/Modal";
@@ -8,7 +7,7 @@ import { getCategories } from "@/services/categoryApi";
 import { Category } from "@/types/category";
 
 export default function Home() {
-  const totalAmount: number = 70000;
+  const totalAmount: number = 72000;
   const [expenseData, setExpenseData] = useState<Expense[]>([]);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [refresh, setRefresh] = useState<number>(0);
@@ -18,9 +17,9 @@ export default function Home() {
   useEffect(() => {
     async function fetchCategories() {
       const data = await getCategories();
-      setCategoryList(data)
+      setCategoryList(data);
     }
-    fetchCategories()
+    fetchCategories();
   }, []);
 
   useEffect(() => {
@@ -98,7 +97,11 @@ export default function Home() {
           </table>
         </div>
         {/* Modal */}
-        <Modal isVisible={isModalVisible} onClose={handleModalClose} categoryList={categoryList} />
+        <Modal
+          isVisible={isModalVisible}
+          onClose={handleModalClose}
+          categoryList={categoryList}
+        />
       </div>
     </div>
   );

@@ -17,14 +17,18 @@ export async function addExpense(
   title: string,
   amount: number,
   type: string,
-  category: string
+  category: string,
+  user: string | null
 ) {
+  if (!user) {
+    throw new Error("No user found");
+  }
   const res = await fetch("/api/expenses", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ title, amount, type, category }),
+    body: JSON.stringify({ title, amount, type, category, user }),
   });
 
   if (!res.ok) {

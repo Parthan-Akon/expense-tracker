@@ -1,6 +1,7 @@
 import { addExpense } from "@/services/expensesApi";
 import { Category } from "@/types/category";
 import React, { useState } from "react";
+import { useAppContext } from "../context/AppContext";
 
 interface ModalProps {
   isVisible: boolean;
@@ -14,6 +15,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose, categoryList }) => {
   const [type, setType] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [saveButtonLabel, setSaveButtonLabel] = useState<string>("Save");
+  const { user } = useAppContext();
 
   const resetForm = () => {
     setTitle("");
@@ -42,7 +44,7 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose, categoryList }) => {
 
   const handleSave = async () => {
     setSaveButtonLabel("Saving...");
-    await addExpense(title, amount, type, category);
+    await addExpense(title, amount, type, category,user);
     setSaveButtonLabel("Save");
     resetForm();
     onClose();

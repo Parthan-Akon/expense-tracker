@@ -1,5 +1,11 @@
+import { USERS } from "@/app/constants";
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+
+interface UserAuthObject {
+  email: string;
+  password: string;
+}
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,11 +18,17 @@ const supabase = createClient(
   }
 );
 
-async function authenticateUser() {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: "parthan@test.com",
-    password: "Parthan@123",
-  });
+async function authenticateUser(user: string) {
+  let userObject: UserAuthObject = { email: "", password: "" };
+  if (user === "parthan") {
+    userObject.email = USERS.PARTHAN.email;
+    userObject.password = USERS.PARTHAN.password;
+  } else if (user === "anjaly") {
+    userObject.email = USERS.ANJALY.email;
+    userObject.password = USERS.ANJALY.password;
+  }
+
+  const { data, error } = await supabase.auth.signInWithPassword(userObject);
   if (error) {
     throw new Error(error.message);
   }
@@ -36,7 +48,13 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const { title, amount, type, category: category_id } = await request.json();
+  const {
+    title,
+    amount,
+    type,
+    category: category_id,
+    user,
+  } = await request.json();
 
   if (!title || !amount || !category_id) {
     return NextResponse.json(
@@ -46,8 +64,9 @@ export async function POST(request: Request) {
   }
 
   // 🔐 Authenticate the user
+  let authenticatedUser;
   try {
-    await authenticateUser();
+    authenticatedUser = await authenticateUser(user);
   } catch (error: unknown) {
     if (error instanceof Error) {
       return NextResponse.json({ error: error.message }, { status: 401 });
@@ -60,7 +79,9 @@ export async function POST(request: Request) {
 
   const { data, error } = await supabase
     .from("expenses")
-    .insert([{ title, amount, type, category_id }]);
+    .insert([
+      { title, amount, type, category_id, user: authenticatedUser.user.email },
+    ]);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
