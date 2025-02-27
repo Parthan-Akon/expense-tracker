@@ -19,7 +19,7 @@ const supabase = createClient(
 );
 
 async function authenticateUser(user: string) {
-  let userObject: UserAuthObject = { email: "", password: "" };
+  const userObject: UserAuthObject = { email: "", password: "" };
   if (user === "parthan") {
     userObject.email = USERS.PARTHAN.email;
     userObject.password = USERS.PARTHAN.password;
