@@ -35,9 +35,22 @@ async function authenticateUser(user: string) {
   return data;
 }
 export async function GET() {
+  const now = new Date();
+
+  const startOfMonth = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    1
+  ).toISOString();
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  endOfMonth.setHours(23, 59, 59, 999);
+  const endOfMonthISO = endOfMonth.toISOString();
+
   const { data, error } = await supabase
     .from("expenses")
     .select("id, title, amount, type, created_at, categories(name,id)")
+    .gte("created_at", startOfMonth)
+    .lte("created_at", endOfMonthISO)
     .order("created_at", { ascending: false });
 
   if (error) {

@@ -5,8 +5,10 @@ import { Expense } from "@/types/expense";
 import Modal from "./components/Modal";
 import { getCategories } from "@/services/categoryApi";
 import { Category } from "@/types/category";
+import useUserInitializer from "./hooks/useUserInitializer";
 
 export default function Home() {
+  useUserInitializer();
   const totalAmount: number = 72000;
   const [expenseData, setExpenseData] = useState<Expense[]>([]);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -72,16 +74,14 @@ export default function Home() {
           <table className="min-w-full divide-y divide-gray-200 text-black w-full table-fixed">
             <thead>
               <tr>
-                <th className="text-left px-0.5 py-3 bg-gray-50 w-1.5">No.</th>
                 <th className="text-left px-6 py-3 bg-gray-50">Purchase</th>
                 <th className="text-left px-6 py-3 bg-gray-50">Type</th>
                 <th className="text-left px-6 py-3 bg-gray-50">Amount</th>
               </tr>
             </thead>
             <tbody>
-              {expenseData.map((item, index) => (
+              {expenseData.map((item) => (
                 <tr key={item.id} className="bg-white even:bg-gray-50">
-                  <td className="text-left px-0.5 py-4 w-1.5">{index + 1}</td>
                   <td className="text-left px-6 py-4 whitespace-normal break-words">
                     {item.title}
                   </td>
