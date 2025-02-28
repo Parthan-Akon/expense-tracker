@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { getExpenses } from "@/services/expensesApi";
 import { Expense } from "@/types/expense";
 import Modal from "./components/Modal";
@@ -8,6 +8,15 @@ import { Category } from "@/types/category";
 import useUserInitializer from "./hooks/useUserInitializer";
 
 export default function Home() {
+  // This can be removed, once login page is done.
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
+  );
+}
+
+const HomeContent = () => {
   useUserInitializer();
   const totalAmount: number = 72000;
   const [expenseData, setExpenseData] = useState<Expense[]>([]);
@@ -105,4 +114,4 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
