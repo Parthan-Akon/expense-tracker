@@ -1,7 +1,7 @@
 // src/services/expensesApi.ts
 
-export async function getExpenses() {
-  const res = await fetch("/api/expenses", {
+export async function getExpenses(user: string) {
+  const res = await fetch(`/api/expenses?user=${user}`, {
     method: "GET",
     cache: "no-store", // Avoid caching for development
   });

@@ -34,8 +34,14 @@ async function authenticateUser(user: string) {
   }
   return data;
 }
-export async function GET() {
+export async function GET(request: Request) {
   const now = new Date();
+  const url = new URL(request.url);
+  const user = url.searchParams.get("user");
+
+  if (!user) {
+    return NextResponse.json({ error: "No user found" }, { status: 400 });
+  }
 
   const startOfMonth = new Date(
     now.getFullYear(),
@@ -49,6 +55,7 @@ export async function GET() {
   const { data, error } = await supabase
     .from("expenses")
     .select("id, title, amount, type, created_at, categories(name,id)")
+    .eq("user", user)
     .gte("created_at", startOfMonth)
     .lte("created_at", endOfMonthISO)
     .order("created_at", { ascending: false });

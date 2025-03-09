@@ -6,6 +6,8 @@ import Modal from "./components/Modal";
 import { getCategories } from "@/services/categoryApi";
 import { Category } from "@/types/category";
 import useUserInitializer from "./hooks/useUserInitializer";
+import { useAppContext } from "./context/AppContext";
+import { USERS } from "./constants";
 
 export default function Home() {
   // This can be removed, once login page is done.
@@ -24,6 +26,7 @@ const HomeContent = () => {
   const [refresh, setRefresh] = useState<number>(0);
   const [remainingAmount, setRemainingAmount] = useState<number>(0);
   const [categoryList, setCategoryList] = useState<Category[]>([]);
+  const { user = "" } = useAppContext();
 
   useEffect(() => {
     async function fetchCategories() {
@@ -32,10 +35,20 @@ const HomeContent = () => {
     }
     fetchCategories();
   }, []);
-
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getExpenses();
+      if (!user) {
+        return;
+      }
+
+      let userEmail: string = "";
+      if (user === "parthan") {
+        userEmail = USERS.PARTHAN.email;
+      }
+      if (user === "anjaly") {
+        userEmail = USERS.ANJALY.email;
+      }
+      const data = await getExpenses(userEmail);
       const remaining = data.reduce((acc: number, data: Expense) => {
         return acc - data.amount;
       }, totalAmount);
@@ -44,7 +57,7 @@ const HomeContent = () => {
     };
 
     fetchData();
-  }, [refresh]);
+  }, [refresh, user]);
 
   const handleModalOpen = (): void => {
     setIsModalVisible(true);
